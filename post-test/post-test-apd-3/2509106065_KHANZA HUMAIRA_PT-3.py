@@ -1,5 +1,5 @@
 print ("Selamat datang, silakan login untuk mengakses kalkulator konversi.")
-username = input("Masukkan username:")
+username = input("Masukkan username:")  
 password = input("Masukkan password:")
 if username == "khanza" and password == "065":
     print ("Yeay, login berhasil! Anda dapat mengakses kalkulator konversi.")        
@@ -10,8 +10,7 @@ if username == "khanza" and password == "065":
     print("2. Konversi Massa")
     print("3. Konversi Suhu")
     print("4. Konversi Waktu")
-    print("5. Konversi Mata Uang") # POIN PLUS
-    pilihan = input("Pilih menu (1-5): ")
+    pilihan = input("Pilih menu (1-4): ")
 
     # --- KONVERSI PANJANG ---
     if pilihan == "1":
@@ -79,8 +78,12 @@ if username == "khanza" and password == "065":
             k = c + 273.15
             print(f"Hasil konversi adalah: {k} K")
         elif sub == "b":
-            f = float(input("Masukkan nilai dalam Fahrenheit: "))
+            f = float(input("Masukkan nilai suhu dalam Fahrenheit: "))
             k = (f-32) * 5.0/9.0 + 273.15
+            print(f"Hasil konversi adalah: {k} K")
+        elif sub == "c":
+            r = float(input("Masukkan nilai suhu dalam Reamur: "))
+            k = (r * 5.0/4.0) + 273.15
             print(f"Hasil konversi adalah: {k} K")
         else:
             print("Maaf, Anda salah memilih sub menu.")
@@ -101,49 +104,8 @@ if username == "khanza" and password == "065":
             print(f"Hasil konversi adalah: {detik} detik")
         else:
             print("Maaf, Anda salah memilih sub menu.")
-
-# --- KONVERSI MATA UANG POIN PLUS ---
-    elif pilihan == "5":
-        print("Pilihlah sub menu mata uang yang ingin Anda konversi:")
-        print("a. Rupiah ke Dolar")
-        print("b. Dolar ke Rupiah")
-        print("c. Rupiah ke Yen")
-        print("d. Yen ke Rupiah")
-        print("e. Rupiah ke Won")
-        print("f. Won ke Rupiah")
-        sub = input("Pilih konversi dengan sub menu dari (a-f): ")
-
-        if sub == "a":
-            rupiah = float(input("Masukkan jumlah Rupiah: "))
-            usd = rupiah / 15000  # asumsi 1 USD = 15000 IDR
-            print(f"{rupiah} Rupiah = {usd} Dolar AS")
-        elif sub == "b":
-            usd = float(input("Masukkan jumlah Dolar AS: "))
-            rupiah = usd * 15000
-            print(f"{usd} Dolar AS = {rupiah} Rupiah")
-        elif sub == "c":
-            rupiah = float(input("Masukkan jumlah Rupiah: "))
-            yen = rupiah / 110  # asumsi 1 Yen = 110 IDR
-            print(f"{rupiah} Rupiah = {yen} Yen Jepang")
-        elif sub == "d":
-            yen = float(input("Masukkan jumlah Yen: "))
-            rupiah = yen * 110
-            print(f"{yen} Yen Jepang = {rupiah} Rupiah")
-        elif sub == "e":
-            rupiah = float(input("Masukkan jumlah Rupiah: "))
-            won = rupiah / 12  # asumsi 1 Won = 12 IDR
-            print(f"{rupiah} Rupiah = {won} Won Korea")
-        elif sub == "f":
-            won = float(input("Masukkan jumlah Won: "))
-            rupiah = won * 12
-            print(f"{won} Won Korea = {rupiah} Rupiah")
-        else:
-            print("Maaf, Anda salah memilih sub menu.")
-
     else:
         print("Maaf, Harap memilih menu yang tersedia (1-4).")
-
-    print("Terimakasih telah menggunakan kalkulator konversi! Kritik dan saran sangat diharapkan demi kesuksesan program ini.")
 
 # --- LOGIN GAGAL --- POIN PLUS
 elif username == "khanza" and password != "065":
