@@ -20,3 +20,20 @@ while (jawab == 'ya'):
     hitung += 1
     jawab = input("Ulang lagi?")
 print(f"total perulangan : {hitung}")
+
+username = input("Masukkan username : ")
+while username == "":
+    username = input("Masukkan username : ")
+
+#Contoh penggunaan Break
+angka = [2, 5, 8, 12, 15, 7, 20]
+
+print("Mencari angka lebih besar dari 10...")
+
+for n in angka:
+    print(f"Sekarang memeriksa angka: {n}")
+    if n > 10:
+        print(f"Angka {n} lebih besar dari 10, perulangan berhenti.")
+        break
+
+print("program selesai.")
