@@ -104,9 +104,9 @@ while True:
                             data_tiket[i][5] = input("Usia baru        : ")
                             print("Data e-tiket berhasil diperbarui.")
                             break
-                    else:
+                    if not ditemukan:
                         print("ID E-Tiket tidak ditemukan.")
-                        input("Tekan ENTER untuk kembali")
+                    input("Tekan ENTER untuk kembali")
                 # Delete
                 elif menu_admin == "4":
                     os.system('cls' if os.name == 'nt' else 'clear')
@@ -123,11 +123,9 @@ while True:
                             else:
                                 print("E-Tiket batal dihapus")
                             break
-                        else:
-                            print("ID Tiket tidak ditemukan.")
-                            input("Tekan ENTER untuk kembali")
-                else:
-                    print("Menu tidak valid")
+                    if not ditemukan:
+                        print("ID Tiket tidak ditemukan.")
+                    input("Tekan ENTER untuk kembali")
     # Menu Login Pengguna
     elif menu_awal == "pengguna":
         os.system('cls' if os.name == 'nt' else 'clear')
