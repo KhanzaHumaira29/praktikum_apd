@@ -9,7 +9,7 @@ akun = {
     "rumay" : {"password": "rumay03", "role": "pengguna"}
 }
 
-#   Data E-Tiket IKN FUN RUN 10KM
+#   Data E-Tiket (default)
 data_tiket = {
     "IKN01": {"nama": "ghina", "kategori": "10KM", "email": "ghina@gmail.com", "no_hp": "0812345678", "usia": "18"},
     "IKN02": {"nama": "van", "kategori": "10KM", "email": "van@gmail.com", "no_hp": "0898766541", "usia": "22"},
@@ -30,7 +30,7 @@ while True:
     #   Menu Awal Login
     if menu_awal == "1":
         os.system('cls' if os.name == 'nt' else 'clear')
-        print("=== LOGIN SISTEM E-TIKET IKN FUN RUN 10KM ===")
+        print("=== LOGIN MANAJEMEN DATA E-TIKET IKN FUN RUN 10KM ===")
         username = input("Masukkan Username: ")
         password = input("Masukkan Password: ")
         if username in akun and akun[username]["password"] == password:
