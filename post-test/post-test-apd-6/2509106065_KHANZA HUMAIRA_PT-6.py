@@ -120,7 +120,7 @@ while True:
                             del data_tiket[id_hapus]
                             print("Data berhasil dihapus!")
                         else:
-                            print("Penghapusan dibatalkan.")
+                            print("Data batal dihapus.")
                     else:
                         print("ID E-Tiket tidak ditemukan.")
                     input("Tekan ENTER untuk kembali...")
@@ -163,7 +163,7 @@ while True:
                     print("=== DAFTAR E-TIKET IKN FUN RUN (NEW) ===")
                     #   Auto ID (IKN-XX)
                     new_id = "IKN" + str(len(data_tiket) + 1).zfill(2)
-                    print(f"ID tiket otomatis: {new_id}")
+                    print(f"ID E-tiket otomatis: {new_id}")
                     kategori = "10KM"
                     email = input("Masukkan Email: ")
                     no_hp = input("Masukkan No HP: ")
