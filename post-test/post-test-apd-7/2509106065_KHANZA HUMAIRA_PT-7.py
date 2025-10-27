@@ -1,13 +1,12 @@
 import os
-os.system('cls' if os.name == 'nt' else 'clear')
-
-#   Variabel Global
+#  Variabel Global
 akun = { 
     "khanza" : {"password": "065", "role": "admin"},
     "ghina" : {"password": "ghina01", "role": "pengguna"},
     "van" : {"password": "van02", "role": "pengguna"},
     "rumay" : {"password": "rumay03", "role": "pengguna"}
 }
+
 data_tiket = {
     "IKN01": {"nama": "ghina", "kategori": "10KM", "email": "ghina@gmail.com", "no_hp": "0812345678", "usia": "18"},
     "IKN02": {"nama": "van", "kategori": "10KM", "email": "van@gmail.com", "no_hp": "0898766541", "usia": "22"},
@@ -15,47 +14,237 @@ data_tiket = {
 }
 
 current_user = ""
+running = True
 
-#   Fungsi Parameter
-def cek_login(username,password):
-    if username in akun and[username]["password"] == password:
+#   Prosedur 
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def pause():
+    input("Tekan ENTER untuk kembali.")
+
+# Error Handling
+def tidak_boleh_kosong(teks):
+    if teks.strip() == "":
+        raise ValueError("Input tidak boleh kosong!")
+    
+#   Fungsi dgn Parameter
+def cek_login(username, password):
+    if username in akun and akun[username]["password"] == password:
         return akun[username]["role"]
-    raise ValueError("Username atau Password salah.")
+    else:
+        raise KeyError("Username atau Password salah!")
+    
+#   Fungsi dgn parameter
+def cek_no_hp(no_hp):
+    return no_hp.isdigit()
+    
+#   Fungsi tanpa parameter
+def total_tiket():
+    return len(data_tiket)
 
-#   Fungsi tanpa Parameter
-def generate_id():
-    return "IKN" + str (len(data_tiket) + 1).zfill(2)
+#   Fungsi Rekursif (menu)
+def login():
+    global current_user
+    clear()
+    print("Silakan Login.")
+    try:
+        username = input("Masukkan Username : ")
+        password = input("Masukkan Password : ")
 
-#   Prosedur ke-1
+        tidak_boleh_kosong(username)
+        tidak_boleh_kosong(password)
+
+        role = cek_login(username, password)
+        current_user = username
+        if role == "admin":
+            menu_admin()
+        else:
+            menu_pengguna()
+
+    except Exception as e:
+        print(f"Error: {e}")
+        login()
+
+#   Fungsi Tanpa Parameter
+def menu_awal():
+    global running
+    clear()
+    print("MENU AWAL SISTEM MANAJEMEN DATA E-TIKET EVENT IKN FUN RUN 10KM")
+    print("1. Login(Admin/Pengguna)")
+    print("2. Register Akun Baru")
+    print("3. Logout")
+    pilih = input("Pilih menu (1/2/3): ")
+
+    try:
+        if pilih == "1":
+            login()
+        elif pilih == "2":
+            register()
+        elif pilih == "3":
+            running = False
+        else:
+            raise ValueError("Pilihan tidak valid.")
+    except Exception as e:
+        print(f"Error: {e}")
+        pause()
+        menu_awal()
+
+#   Menu Register
+def register():
+    clear()
+    print("REGISTER E-TIKET IKN FUN RUN 10KM")
+    try:
+        new_user = input("Masukkan username baru: ")
+        tidak_boleh_kosong(new_user)
+
+        if new_user in akun:
+            raise KeyError("Username sudah terdaftar!")
+
+        new_pass = input("Masukkan password: ")
+        tidak_boleh_kosong(new_pass)
+
+        akun[new_user] = {"password": new_pass, "role": "pengguna"}
+        print("Akun berhasil dibuat!")
+    except Exception as e:
+        print(f"Error: {e}")
+    pause()
+
+#   Menu Admin
 def menu_admin():
-    while True:
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print("=" * 60)
-        print("MENU ADMIN E-TIKET EVENT IKN FUN RUN 10KM".center(60))
-        print("=" * 60)
-        print("1. Tambah E-Tiket Baru (Create)")
-        print("2. Lihat Data E-Tiket (Read)")
-        print("3. Ubah Data E-Tiket (Update)")
-        print("4. Hapus Data E-Tiket (Delete)")
-        print("5. Logout")
-        menu_admin = input("Masukkan pilihan (1/2/3/4/5): ")
+    clear()
+    print(f"MENU ADMIN MANAJEMEN DATA E-TIKET IKN FUN RUN 10KM({current_user})")
+    print("1. Tambah E-Tiket Baru (Create)")
+    print("2. Lihat Data E-Tiket (Read)")
+    print("3. Ubah Data E-Tiket (Update)")
+    print("4. Hapus Data E-Tiket (Delete)")
+    print("5. Logout Menu Admin")
 
-        if menu_admin == "1":
-            id_tiket = input("Masukkan ID E-Tiket: ")
+    pilih = input("Pilih menu (1/2/3/4/5): ")
+    
+    try:
+        if pilih == "1":
+            clear()
+            print("TAMBAH DATA E-TIKET")
+            id_tiket = input("Masukkan ID E-Tiket : ")
+            tidak_boleh_kosong(id_tiket)
+
             if id_tiket in data_tiket:
-                print("ID E-Tiket sudah tersedia!")
+                raise KeyError("ID sudah tersedia!")
+
+            nama = input("Masukkan Nama Peserta : ")
+            email = input("Masukkan Email : ")
+            no_hp = input("Masukkan Nomor HP : ")
+            usia = input("Masukkan Usia : ")
+
+            data_tiket[id_tiket] = {
+                "nama": nama,
+                "kategori": "10KM",
+                "email": email,
+                "no_hp": no_hp,
+                "usia": usia        
+            }
+            print("Data E-Tiket sukses ditambahkan.")
+
+        elif pilih == "2":
+            clear()
+            print("CHECK DATA E-TIKET")
+            if len(data_tiket) == 0:
+                print("Belum ada data E-Tiket.")
             else:
-                nama = input("Nama Peserta: ")
-                kategori = "10KM"
-                email = input("Email: ")
-                no_hp = input("Nomor HP: ")
-                usia = input("Usia: ")
-                data_tiket[id_tiket] = {"nama": nama, "kategori": kategori, "email": email, "no_hp": no_hp, "usia": usia}
-                print("Data E-Tiket berhasil ditambahkan.")
-            input("Tekan ENTER untuk kembali.")
-        
-        elif menu_admin == "2":
-            print(f"{'ID':<8} {'Nama':<15} {'Kategori':<8} {'Email':<20} {'No HP':<12} {'Usia':<5}")
-            for id_tiket, t in data_tiket.items():
-                print(f"{id_tiket:<8} {t['nama']:<15} {t['kategori']:<8} {t['email']:<20} {t['no_hp']:<12} {t['usia']:<5}")
-            input("Tekan ENTER untuk kembali.")
+                print(f"{'ID':<8} {'Nama':<15} {'Kategori':<8} {'Email':<20} {'No HP':<12} {'Usia':<5}")
+                print("-" * 75)
+                for id_t, t in data_tiket.items():
+                    print(f"{id_t:<8} {t['nama']:<15} {t['kategori']:<8} {t['email']:<20} {t['no_hp']:<12} {t['usia']:<5}")
+
+        elif pilih == "3":
+            clear()
+            print("UPDATE DATA E=TIKET")
+            id_up = input("Masukkan ID : ")
+            if id_up not in data_tiket:
+                raise KeyError("ID E-Tiket tidak ditemukan!")
+            
+            data_tiket[id_up]['nama'] = input("Nama baru : ")
+            data_tiket[id_up]['email'] = input("Email baru : ")
+            data_tiket[id_up]['no_hp'] = input("Nomor HP baru : ")
+            data_tiket[id_up]['usia'] = input("Usia baru : ")
+            print("Data E-Tiket sukses diperbarui.")
+
+        elif pilih == "4":
+            clear()
+            print("DELETE DATA E-TIKET")
+            id_del = input("Masukkan ID : ")
+            if id_del not in data_tiket:
+                raise KeyError("ID E-Tiket tidak ditemukan!")
+            
+            del data_tiket[id_del]
+            print("Data E-Tiket sukses dihapus.")
+
+        elif pilih == "5":
+            return
+        else:
+            raise ValueError("Pilihan menu tidak valid.")
+    except Exception as e:
+        print(f"Error: {e}")
+    pause()
+    menu_admin()
+
+#   Menu Pengguna
+def menu_pengguna():
+    clear()
+    print(f"MENU PENGGUNA E-TIKET IKN FUN RUN 10KM({current_user})")
+    print("1. Lihat E-Tiket Saya")
+    print("2. Daftar E-Tiket Baru")
+    print("3. Logout Menu Pengguna")
+    pilih = input("Pilih menu: ")
+
+    try:
+        if pilih == "1":
+            clear()
+            ada = False
+            
+            print(f"{'ID':<8} {'Nama':<16} {'Kategori':<8} {'Email':<16} {'Usia':<8} {'No HP':<16}")
+            print("-" * 75)
+
+            for id_t, v in data_tiket.items():
+                if v['nama'] == current_user:
+                    ada = True
+                    print(f"{id_t:<8} {v['nama']:<16} {v['kategori']:<8} {v['email']:<16} {v['usia']:<8} {v['no_hp']:<16}")
+
+            if not ada:
+                print("Belum ada e-tiket atas nama Anda.")
+            print("-" * 75)
+
+        elif pilih == "2":
+            clear()
+            new_id = "IKN" + str(len(data_tiket) + 1).zfill(2)
+            email = input("Email : ")
+            no_hp = input("No HP : ")
+            if not cek_no_hp(no_hp):
+                raise ValueError("Nomor HP harus angka!")
+            usia = input("Usia : ")
+            data_tiket[new_id] = {
+                "nama": current_user,
+                "kategori": "10KM",
+                "email": email,
+                "no_hp": no_hp,
+                "usia": usia
+            }
+            print(f"E-Tiket dengan id {new_id} sukses didaftarkan.")
+            print(f"Total Tiket Terdaftar: {total_tiket()}")
+
+
+        elif pilih == "3":
+            return
+        else:
+            raise ValueError("Pilihan menu tidak valid.")
+    except Exception as e:
+        print(f"Error: {e}")
+    pause()
+    menu_pengguna() 
+
+while running:
+    menu_awal()
+
+clear()
+print("Yeay, terimakasih sudah berkunjung:)")
